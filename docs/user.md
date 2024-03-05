@@ -85,3 +85,25 @@ Response Body (Failed, 401) :
   "error": "Unauthorized"
 }
 ```
+
+## Logout User
+
+Endpoint : DELETE /api/users/current
+
+Request Header :
+
+- X-API-TOKEN : Token (Mandatory)
+
+Response Body (SUCCESS) :
+```json
+{
+  "data": "ok"
+}
+```
+
+Response Body (Failed, 401) :
+```json
+{
+  "error": "Unauthorized"
+}
+```
