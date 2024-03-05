@@ -50,3 +50,38 @@ Response Body (Failed, 401) :
   "error": "Unauthorized"
 }
 ```
+
+## Update User
+
+Endpoint : PATCH /api/users/current
+
+Request Header :
+
+- X-API-TOKEN : Token (Mandatory)
+
+Request Body :
+```json
+{
+  "data": {
+    "name": "Andri Wicaksono",
+    "password": "new_password"
+  }
+}
+```
+
+Response Body (SUCCESS) :
+```json
+{
+  "data": {
+    "username": "wicaksono",
+    "name": "Andri Wicaksono"
+  }
+}
+```
+
+Response Body (Failed, 401) :
+```json
+{
+  "error": "Unauthorized"
+}
+```
