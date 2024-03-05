@@ -1,8 +1,10 @@
 package com.andriwicaksono.restapimavenproject.controller;
 
+import com.andriwicaksono.restapimavenproject.entity.User;
 import com.andriwicaksono.restapimavenproject.model.RegisterUserRequest;
 import com.andriwicaksono.restapimavenproject.model.WebResponse;
 import com.andriwicaksono.restapimavenproject.repository.UserRepository;
+import com.andriwicaksono.restapimavenproject.security.BCrypt;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -63,6 +65,34 @@ class UserControllerTest {
         request.setUsername("");
         request.setPassword("");
         request.setName("");
+
+        mockMvc.perform(
+                post("/api/users")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        ).andExpectAll(
+                status().isBadRequest()
+        ).andDo(result -> {
+            WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<WebResponse<String>>() {
+            });
+
+            assertNotNull(response.getErrors());
+        });
+    }
+
+    @Test
+    void testRegisterDuplicate() throws Exception {
+        User user = new User();
+        user.setUsername("test");
+        user.setPassword(BCrypt.hashpw("rahasia", BCrypt.gensalt()));
+        user.setName("Test");
+        userRepository.save(user);
+
+        RegisterUserRequest request = new RegisterUserRequest();
+        request.setUsername("test");
+        request.setPassword("rahasia");
+        request.setName("Test");
 
         mockMvc.perform(
                 post("/api/users")
