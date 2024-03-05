@@ -1,8 +1,10 @@
 package com.andriwicaksono.restapimavenproject.controller;
 
+import com.andriwicaksono.restapimavenproject.entity.User;
 import com.andriwicaksono.restapimavenproject.model.LoginUserRequest;
 import com.andriwicaksono.restapimavenproject.model.WebResponse;
 import com.andriwicaksono.restapimavenproject.repository.UserRepository;
+import com.andriwicaksono.restapimavenproject.security.BCrypt;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,6 +42,32 @@ class AuthControllerTest {
         LoginUserRequest request = new LoginUserRequest();
         request.setUsername("test");
         request.setPassword("test");
+
+        mockMvc.perform(
+                post("/api/auth/login")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        ).andExpectAll(
+                status().isUnauthorized()
+        ).andDo(result -> {
+            WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+            });
+            assertNotNull(response.getErrors());
+        });
+    }
+
+    @Test
+    void loginFailedWrongPassword() throws Exception {
+        User user = new User();
+        user.setName("test");
+        user.setUsername("test");
+        user.setPassword(BCrypt.hashpw("test", BCrypt.gensalt()));
+        userRepository.save(user);
+
+        LoginUserRequest request = new LoginUserRequest();
+        request.setUsername("test");
+        request.setPassword("salah");
 
         mockMvc.perform(
                 post("/api/auth/login")
