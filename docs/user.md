@@ -25,3 +25,28 @@ Response Body (FAILED) :
   "username": "Username must not be blank, ???"
 }
 ```
+
+## Get User
+
+Endpoint : GET /api/users/current
+
+Request Header : 
+
+- X-API-TOKEN : Token (Mandatory)
+
+Response Body (SUCCESS) :
+```json
+{
+  "data": {
+    "username": "wicaksono",
+    "name": "Andri Wicaksono"
+  }
+}
+```
+
+Response Body (Failed, 401) :
+```json
+{
+  "error": "Unauthorized"
+}
+```
