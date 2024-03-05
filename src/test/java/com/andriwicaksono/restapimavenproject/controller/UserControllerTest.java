@@ -2,6 +2,7 @@ package com.andriwicaksono.restapimavenproject.controller;
 
 import com.andriwicaksono.restapimavenproject.entity.User;
 import com.andriwicaksono.restapimavenproject.model.RegisterUserRequest;
+import com.andriwicaksono.restapimavenproject.model.UserResponse;
 import com.andriwicaksono.restapimavenproject.model.WebResponse;
 import com.andriwicaksono.restapimavenproject.repository.UserRepository;
 import com.andriwicaksono.restapimavenproject.security.BCrypt;
@@ -138,6 +139,32 @@ class UserControllerTest {
             WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
             });
             assertNotNull(response.getErrors());
+        });
+    }
+
+    @Test
+    void getUserSuccess() throws Exception {
+        User user = new User();
+        user.setUsername("test");
+        user.setPassword(BCrypt.hashpw("rahasia", BCrypt.gensalt()));
+        user.setName("Test");
+        user.setToken("test");
+        user.setTokenExpiredAt(System.currentTimeMillis() + 100000000L);
+        userRepository.save(user);
+
+        mockMvc.perform(
+                get("/api/users/current")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .header("X-API-TOKEN", "test")
+        ).andExpectAll(
+                status().isOk()
+        ).andDo(result -> {
+            WebResponse<UserResponse> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<WebResponse<UserResponse>>() {
+            });
+
+            assertNull(response.getErrors());
+            assertEquals("test", response.getData().getUsername());
+            assertEquals("Test", response.getData().getName());
         });
     }
 }
