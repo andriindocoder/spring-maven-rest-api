@@ -4,9 +4,6 @@ import com.andriwicaksono.restapimavenproject.entity.User;
 import com.andriwicaksono.restapimavenproject.model.RegisterUserRequest;
 import com.andriwicaksono.restapimavenproject.repository.UserRepository;
 import com.andriwicaksono.restapimavenproject.security.BCrypt;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,15 +19,11 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private Validator validator;
+    private ValidationService validationService;
 
     @Transactional
     public void register(RegisterUserRequest request) {
-        Set<ConstraintViolation<RegisterUserRequest>> constraintViolations = validator.validate(request);
-        if (!constraintViolations.isEmpty()) {
-            //error
-            throw new ConstraintViolationException(constraintViolations);
-        }
+        validationService.validate(request);
 
         if (userRepository.existsById(request.getUsername())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already registered");
