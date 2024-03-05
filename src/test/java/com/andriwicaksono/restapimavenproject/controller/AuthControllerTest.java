@@ -2,6 +2,7 @@ package com.andriwicaksono.restapimavenproject.controller;
 
 import com.andriwicaksono.restapimavenproject.entity.User;
 import com.andriwicaksono.restapimavenproject.model.LoginUserRequest;
+import com.andriwicaksono.restapimavenproject.model.TokenResponse;
 import com.andriwicaksono.restapimavenproject.model.WebResponse;
 import com.andriwicaksono.restapimavenproject.repository.UserRepository;
 import com.andriwicaksono.restapimavenproject.security.BCrypt;
@@ -80,6 +81,39 @@ class AuthControllerTest {
             WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
             });
             assertNotNull(response.getErrors());
+        });
+    }
+
+    @Test
+    void loginSuccess() throws Exception {
+        User user = new User();
+        user.setName("Test");
+        user.setUsername("test");
+        user.setPassword(BCrypt.hashpw("test", BCrypt.gensalt()));
+        userRepository.save(user);
+
+        LoginUserRequest request = new LoginUserRequest();
+        request.setUsername("test");
+        request.setPassword("test");
+
+        mockMvc.perform(
+                post("/api/auth/login")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        ).andExpectAll(
+                status().isOk()
+        ).andDo(result -> {
+            WebResponse<TokenResponse> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+            });
+            assertNull(response.getErrors());
+            assertNotNull(response.getData().getToken());
+            assertNotNull(response.getData().getExpiredAt());
+
+            User userDb = userRepository.findById("test").orElse(null);
+            assertNotNull(userDb);
+            assertEquals(userDb.getToken(), response.getData().getToken());
+            assertEquals(userDb.getTokenExpiredAt(), response.getData().getExpiredAt());
         });
     }
 }
