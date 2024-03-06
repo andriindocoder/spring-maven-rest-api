@@ -56,14 +56,13 @@ class AuthControllerTest {
     private ObjectMapper objectMapper;
 
     @BeforeEach
-    public void setUp(WebApplicationContext webApplicationContext,
-                      RestDocumentationContextProvider restDocumentation) {
+    public void setUp(RestDocumentationContextProvider restDocumentation) {
 
         this.mockMvc = MockMvcBuilders
-                .webAppContextSetup(webApplicationContext)
+                .webAppContextSetup(context)
                 .apply(documentationConfiguration(restDocumentation))
                 .alwaysDo(JacksonResultHandlers.prepareJackson(objectMapper))
-                .alwaysDo(MockMvcRestDocumentation.document("{method-name}",
+                .alwaysDo(MockMvcRestDocumentation.document("{class-name}/{method-name}",
                         Preprocessors.preprocessRequest(),
                         Preprocessors.preprocessResponse(
                                 ResponseModifyingPreprocessors.replaceBinaryContent(),
@@ -71,9 +70,9 @@ class AuthControllerTest {
                                 Preprocessors.prettyPrint())))
                 .apply(documentationConfiguration(restDocumentation)
                         .uris()
-                        .withScheme("http")
-                        .withHost("localhost")
-                        .withPort(8080)
+                        .withScheme("https")
+                        .withHost("exampledomain.com")
+                        .withPort(-1)
                         .and().snippets()
                         .withDefaults(CliDocumentation.curlRequest(),
                                 HttpDocumentation.httpRequest(),

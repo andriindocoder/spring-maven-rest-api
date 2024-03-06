@@ -4,35 +4,35 @@ R&D Andri
 
 == User Authentication
 
-include::{snippets}/login-failed-user-not-found/auto-section.adoc[]
+include::{snippets}/auth-controller-test/login-failed-user-not-found/auto-section.adoc[]
 
-include::{snippets}/login-failed-wrong-password/auto-section.adoc[]
+include::{snippets}/auth-controller-test/login-failed-wrong-password/auto-section.adoc[]
 
-include::{snippets}/login-success/auto-section.adoc[]
+include::{snippets}/auth-controller-test/login-success/auto-section.adoc[]
 
-include::{snippets}/logout-failed/auto-section.adoc[]
+include::{snippets}/auth-controller-test/logout-failed/auto-section.adoc[]
 
-include::{snippets}/logout-success/auto-section.adoc[]
+include::{snippets}/auth-controller-test/logout-success/auto-section.adoc[]
 
 == User Management
 
-include::{snippets}/get-user-success/auto-section.adoc[]
+include::{snippets}/user-controller-test/get-user-success/auto-section.adoc[]
 
-include::{snippets}/get-user-token-expired/auto-section.adoc[]
+include::{snippets}/user-controller-test/get-user-token-expired/auto-section.adoc[]
 
-include::{snippets}/get-user-unauthorized/auto-section.adoc[]
+include::{snippets}/user-controller-test/get-user-unauthorized/auto-section.adoc[]
 
-include::{snippets}/get-user-unauthorized-token-not-sent/auto-section.adoc[]
+include::{snippets}/user-controller-test/get-user-unauthorized-token-not-sent/auto-section.adoc[]
 
-include::{snippets}/test-register-bad-request/auto-section.adoc[]
+include::{snippets}/user-controller-test/test-register-bad-request/auto-section.adoc[]
 
-include::{snippets}/test-register-duplicate/auto-section.adoc[]
+include::{snippets}/user-controller-test/test-register-duplicate/auto-section.adoc[]
 
-include::{snippets}/test-register-success/auto-section.adoc[]
+include::{snippets}/user-controller-test/test-register-success/auto-section.adoc[]
 
-include::{snippets}/update-user-success/auto-section.adoc[]
+include::{snippets}/user-controller-test/update-user-success/auto-section.adoc[]
 
-include::{snippets}/update-user-unauthorized/auto-section.adoc[]
+include::{snippets}/user-controller-test/update-user-unauthorized/auto-section.adoc[]
 
 
 
