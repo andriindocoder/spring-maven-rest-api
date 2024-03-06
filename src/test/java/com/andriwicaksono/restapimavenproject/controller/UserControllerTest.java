@@ -43,9 +43,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UserControllerTest {
 
     @Autowired
-    private WebApplicationContext context;
-
-    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
@@ -103,7 +100,7 @@ class UserControllerTest {
         ).andExpectAll(
                 status().isOk()
         ).andDo(result -> {
-            WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<WebResponse<String>>() {
+            WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
             });
 
             assertEquals("OK", response.getData());
@@ -125,7 +122,7 @@ class UserControllerTest {
         ).andExpectAll(
                 status().isBadRequest()
         ).andDo(result -> {
-            WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<WebResponse<String>>() {
+            WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
             });
 
             assertNotNull(response.getErrors());
@@ -153,7 +150,7 @@ class UserControllerTest {
         ).andExpectAll(
                 status().isBadRequest()
         ).andDo(result -> {
-            WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<WebResponse<String>>() {
+            WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
             });
 
             assertNotNull(response.getErrors());
@@ -208,7 +205,7 @@ class UserControllerTest {
         ).andExpectAll(
                 status().isOk()
         ).andDo(result -> {
-            WebResponse<UserResponse> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<WebResponse<UserResponse>>() {
+            WebResponse<UserResponse> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
             });
 
             assertNull(response.getErrors());

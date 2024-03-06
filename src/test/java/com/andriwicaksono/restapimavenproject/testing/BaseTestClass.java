@@ -37,10 +37,9 @@ public abstract class BaseTestClass {
     @Autowired
     protected WebApplicationContext context;
 
-    public void setUpBase(WebApplicationContext webApplicationContext,
-                          RestDocumentationContextProvider restDocumentation) {
+    public void setUpBase(RestDocumentationContextProvider restDocumentation) {
         this.mockMvc = MockMvcBuilders
-                .webAppContextSetup(webApplicationContext)
+                .webAppContextSetup(context)
                 .apply(documentationConfiguration(restDocumentation))
                 .alwaysDo(JacksonResultHandlers.prepareJackson(objectMapper))
                 .alwaysDo(MockMvcRestDocumentation.document("{method-name}",

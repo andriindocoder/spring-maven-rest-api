@@ -18,7 +18,6 @@ import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -41,9 +40,8 @@ class AuthControllerTest extends BaseTestClass {
     private ObjectMapper objectMapper;
 
     @BeforeEach
-    public void setUp(WebApplicationContext webApplicationContext,
-                      RestDocumentationContextProvider restDocumentation) {
-        super.setUpBase(webApplicationContext, restDocumentation);
+    public void setUp(RestDocumentationContextProvider restDocumentation) {
+        super.setUpBase(restDocumentation);
         userRepository.deleteAll();
     }
 
@@ -65,7 +63,7 @@ class AuthControllerTest extends BaseTestClass {
             });
             assertNotNull(response.getErrors());
         })
-                .andDo(document("login-failed-user-not-found"))
+//                .andDo(document("login-failed-user-not-found"))
                 ;
     }
 
