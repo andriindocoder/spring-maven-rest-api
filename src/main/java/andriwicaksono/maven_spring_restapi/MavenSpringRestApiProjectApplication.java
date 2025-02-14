@@ -1,13 +1,13 @@
-package com.andriwicaksono.restapimavenproject;
+package andriwicaksono.maven_spring_restapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RestApiMavenProjectApplication {
+public class MavenSpringRestApiProjectApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RestApiMavenProjectApplication.class, args);
+		SpringApplication.run(MavenSpringRestApiProjectApplication.class, args);
 	}
 
 }

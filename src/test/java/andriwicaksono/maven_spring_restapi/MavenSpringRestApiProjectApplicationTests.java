@@ -1,10 +1,10 @@
-package com.andriwicaksono.restapimavenproject;
+package andriwicaksono.maven_spring_restapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RestApiMavenProjectApplicationTests {
+class MavenSpringRestApiProjectApplicationTests {
 
 	@Test
 	void contextLoads() {
